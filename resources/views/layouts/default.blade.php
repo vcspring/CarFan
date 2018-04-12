@@ -2,10 +2,17 @@
 <html>
   <head>
     <title>
-      @yield('title','CarFan')-汽车迷的家园
+      @yield('title','CarFan App')-汽车迷的家园
     </title>
+    <link rel="stylesheet" href="/css/app.css">
   </head>
   <body>
-    @yield('content')
+    @include('layouts._header')
+    <div class="container">
+      <div class="col-md-offset-1 col-md-10">
+        @yield('content')
+        @include('layouts._footer')
+      </div>
+    </div>
   </body>
 </html>
