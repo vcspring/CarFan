@@ -1,6 +1,12 @@
 @extends('layouts.default')
 
+@section('title')
+@parent
+home
+@stop
+
 @section('content')
+  @parent
   <div class="jumbotron">
     <h1>Hello CarFans!</h1>
     <p class="lead">
@@ -14,4 +20,6 @@
     </p>
 
   </div>
+
+扩展的内容
 @stop
