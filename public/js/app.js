@@ -979,7 +979,7 @@ module.exports = __webpack_require__(42);
 
 __webpack_require__(11);
 
-window.Vue = __webpack_require__(35);
+window.Vue = __webpack_require__(35); //暂时未用到
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -1027,14 +1027,17 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * all outgoing HTTP requests automatically have it attached. This is just
  * a simple convenience so we don't have to attach every token manually.
  */
-
-var token = document.head.querySelector('meta[name="csrf-token"]');
+//删除一下代码，取消错误20180501
+//依据：https://laravel-china.org/courses/laravel-essential-training-5.5/593/the-user-login
+/*
+let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+*/
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

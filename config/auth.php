@@ -67,7 +67,9 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => AppModelsSER::class,
+            'model' => 'App\Models\User',
+            //'model' => AppModelsSER::class,
+            //修改，使用自己生成的user，该user的目录与默认目录可能不一样
         ],
 
         // 'users' => [
