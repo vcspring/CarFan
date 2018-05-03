@@ -8,13 +8,15 @@ use App\Models\User;
 
 use Auth;
 
+use Mail;
+
 class UsersController extends Controller
 {
     //在构造函数中添加中间件，指明过滤机制
     public function __construct()
     {
         $this->middleware('auth', [
-            'except' => ['show', 'create', 'store', 'index']
+            'except' => ['show', 'create', 'store', 'index', 'confirmEmail']
         ]);
 
         $this->middleware('guest', [
@@ -56,13 +58,26 @@ class UsersController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        //用户注册成功后，自动登录
-        Auth::login($user);
-
-        session()->flash('success', '欢迎，您将在这里开启一段新的旅程~');
-
-        return redirect()->route('users.show', [$user]);
+        //用户注册成功后，发送邮件并重定向到home页
+        $this->sendEmailConfirmationTo($user);
+        session()->flash('success', '验证邮件已发送到你的注册邮箱上，请注意查收。');
+        return redirect('/');
     }
+
+    protected function sendEmailConfirmationTo($user)
+    {
+        $view = 'emails.confirm';
+        $data = compact('user');
+        $from = 'aufree@yousails.com';
+        $name = 'Aufree';
+        $to = $user->email;
+        $subject = "感谢注册 Sample 应用！请确认你的邮箱。";
+
+        Mail::send($view, $data, function ($message) use ($from, $name, $to, $subject) {
+            $message->from($from, $name)->to($to)->subject($subject);
+        });
+    }
+
 
     //用户信息编辑
     public function edit(User $user)
@@ -99,5 +114,19 @@ class UsersController extends Controller
         $user->delete();
         session()->flash('success', '成功删除用户！');
         return back();
+    }
+
+    //激活邮件对应的路由控制器
+    public function confirmEmail($token)
+    {
+        $user = User::where('activation_token', $token)->firstOrFail();
+
+        $user->activated = true;
+        $user->activation_token = null;
+        $user->save();
+
+        Auth::login($user);
+        session()->flash('success', '恭喜你，激活成功！');
+        return redirect()->route('users.show', [$user]);
     }
 }
