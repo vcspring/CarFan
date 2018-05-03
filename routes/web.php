@@ -16,17 +16,8 @@ Route::get('/help', 'StaticPagesController@help')->name('help');
 Route::get('/about', 'StaticPagesController@about')->name('about');
 
 Route::get('signup', 'UsersController@create')->name('signup');
+
 Route::resource('users', 'UsersController');
-
-/*
-|--------------------------------------------------------------------------
-|用户登录、登出路由
-|
-*/
-Route::get('login', 'SessionsController@create')->name('login');
-Route::post('login', 'SessionsController@store')->name('login');
-Route::delete('logout', 'SessionsController@destroy')->name('logout');
-
 /*
 |--------------------------------------------------------------------------
 |resource routes,注意每个路由均设置了路由名称
@@ -40,3 +31,13 @@ Route::delete('logout', 'SessionsController@destroy')->name('logout');
 | Route::delete('/users/{user}', 'UsersController@destroy')->name('users.destroy');
 |
 */
+
+/*
+|--------------------------------------------------------------------------
+|用户登录、登出路由
+|
+*/
+Route::get('login', 'SessionsController@create')->name('login');
+Route::post('login', 'SessionsController@store')->name('login');
+Route::delete('logout', 'SessionsController@destroy')->name('logout');
+
