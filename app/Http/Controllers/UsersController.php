@@ -40,7 +40,10 @@ class UsersController extends Controller
     public function show(User $user)
     {
         //view方法会返回views目录下的视图，参数'users.show'指向views目录的下级目录users下的show.blade.php视图文件,同时向参数传递参数user
-        return view('users.show', compact('user'));
+        $statuses = $user->statuses()
+                           ->orderBy('created_at', 'desc')
+                           ->paginate(30);
+        return view('users.show', compact('user', 'statuses'));
     }
 
     //用户注册，需要对用户输入的数据进行验证
